@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Título mejorado con estilo e ícono -->
+    <h2 class="text-center mb-4">
+        <i class="fas fa-edit"></i> Editar Cliente
+    </h2>
+
+    <!-- Mostrar mensaje de error o éxito si existe -->
+    {% if error_message %}
+        <div class="alert alert-danger text-center">
+            {{ error_message }}
+        </div>
+    {% elif success_message %}
+        <div class="alert alert-success text-center">
+            {{ success_message }}
+        </div>
+    {% endif %}
+
+    <!-- Formulario con diseño mejorado -->
+    <form method="POST" class="shadow p-4 rounded bg-light" onsubmit="return validateForm()">
+        {% csrf_token %}
+
+        <!-- Campo de RUT con patrón de validación -->
+        <div class="form-group">
+            <label for="rut" class="font-weight-bold">RUT</label>
+            <input type="text" class="form-control" id="rut" name="rut" value="{{ cliente.rut }}" 
+                   placeholder="Ej: 12345678-9" pattern="\d{7,8}-[0-9Kk]" required
+                   title="El RUT debe tener entre 7 y 8 dígitos, seguido de un guion y un dígito verificador numerico o k.">
+        </div>
+
+        <!-- Campo de Razón Social -->
+        <div class="form-group">
+            <label for="razon_social" class="font-weight-bold">Razón Social</label>
+            <input type="text" class="form-control" id="razon_social" name="razon_social" 
+                   value="{{ cliente.razon_social }}" required maxlength="100">
+        </div>
+
+        <!-- Campo de Giro -->
+        <div class="form-group">
+            <label for="giro" class="font-weight-bold">Giro</label>
+            <input type="text" class="form-control" id="giro" name="giro" value="{{ cliente.giro }}" 
+                   required maxlength="100">
+        </div>
+
+        <!-- Campo de Dirección -->
+        <div class="form-group">
+            <label for="direccion" class="font-weight-bold">Dirección</label>
+            <input type="text" class="form-control" id="direccion" name="direccion" 
+                   value="{{ cliente.direccion }}" required maxlength="150">
+        </div>
+
+        <!-- Campo de Correo Electrónico -->
+        <div class="form-group">
+            <label for="correo" class="font-weight-bold">Correo Electrónico</label>
+            <input type="email" class="form-control" id="correo" name="correo" 
+                   value="{{ cliente.correo }}" required>
+        </div>
+
+        <!-- Campo de Teléfono con patrón -->
+        <div class="form-group">
+            <label for="telefono" class="font-weight-bold">Teléfono</label>
+            <input type="tel" class="form-control" id="telefono" name="telefono" 
+                   value="{{ cliente.telefono }}" required pattern="\d{9}" 
+                   title="El teléfono debe contener exactamente 9 dígitos numéricos.">
+        </div>
+
+        <!-- Botón de envío con estilo mejorado -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-success btn-lg">
+                <i class="fas fa-sync-alt"></i> Actualizar Cliente
+            </button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}
